@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CardBlog = ({ entry }) => {
    const formattedDate = new Date(entry.created_at).toLocaleDateString('en-GB');
@@ -15,7 +16,9 @@ const CardBlog = ({ entry }) => {
                <p className="mb-0">Author: {entry.author}</p>
                <p className="mb-0">Published: {formattedDate}</p>
             </div>
-            <button className="btn btn-sm btn-primary">Read More</button>
+            <Link to={`/blog/${entry.id}`} className="btn btn-sm btn-primary">
+              Read More
+            </Link>
          </div>
       </div>
    );

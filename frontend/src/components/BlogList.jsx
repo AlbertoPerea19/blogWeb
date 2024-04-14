@@ -7,12 +7,14 @@ const BlogList = ({ entries, currentPage, blogsPerPage, goToPreviousPage, goToNe
   const currentBlogs = entries.slice(indexOfFirstBlog, indexOfLastBlog);
 
   return (
-    <div className="row">
-      {currentBlogs.map((entry) => (
-        <div key={entry.id} className="col-12 mb-4">
-          <CardBlog entry={entry} />
-        </div>
-      ))}
+    <div className='container mt-4'>
+      <div className="row">
+        {currentBlogs.map((entry) => (
+          <div key={entry.id} className="col-12 mb-4">
+            <CardBlog entry={entry} />
+          </div>
+        ))}
+      </div>
 
       <div className="col-12 mt-4 d-flex justify-content-center">
         <button

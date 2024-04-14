@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from './components/NavBar';
-import BlogList from './components/BlogList';
+import React, { useState, useEffect } from "react";
+import NavBar from "./components/NavBar";
+import BlogList from "./components/BlogList";
+import Blog from "./components/Blog";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { getAllEntries } from "./services/getAllService";
+import { getEntryById } from "./services/getByIdServices";
 
 function App() {
   const [entries, setEntries] = useState([]);
@@ -10,18 +14,12 @@ function App() {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const response = await fetch('http://localhost:4000/entry');
-        if (response.ok) {
-          const data = await response.json();
-          setEntries(data);
-        } else {
-          throw new Error('Failed to fetch data');
-        }
+        const data = await getAllEntries();
+        setEntries(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-
     fetchEntries();
   }, []);
 
@@ -35,16 +33,27 @@ function App() {
 
   return (
     <>
-      <NavBar />
-      <div className="container mt-4">
-        <BlogList
-          entries={entries}
-          currentPage={currentPage}
-          blogsPerPage={blogsPerPage}
-          goToPreviousPage={goToPreviousPage}
-          goToNextPage={goToNextPage}
-        />
-      </div>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <BlogList
+                entries={entries}
+                currentPage={currentPage}
+                blogsPerPage={blogsPerPage}
+                goToPreviousPage={goToPreviousPage}
+                goToNextPage={goToNextPage}
+              />
+            }
+          ></Route>
+          <Route
+            path="/blog/:id"
+            element={<Blog getEntryById={getEntryById} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
