@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
-import { useState } from "react";
 
-const NavBar = () => {
+const NavBar = ({ onSearch }) => {
   const [theme, setTheme] = useState("light");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("title");
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.body.classList.toggle("bg-dark", newTheme === "dark");
     document.body.classList.toggle("text-light", newTheme === "dark");
+  };
+
+  const handleSearchChange = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    onSearch(term, searchType);
+  };
+
+  const handleSearchTypeChange = (event) => {
+    const type = event.target.value;
+    setSearchType(type);
+    onSearch(searchTerm, type); 
   };
 
   return (
@@ -21,9 +34,23 @@ const NavBar = () => {
         </a>
 
         <div className="d-flex align-items-center">
-          <button className="btn btn-link text-decoration-none">
-            <i className="bi bi-search"></i>
-          </button>
+          <input
+            type="text"
+            className="form-control me-2"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+
+          <select
+            className="form-select me-2"
+            value={searchType}
+            onChange={handleSearchTypeChange}
+          >
+            <option value="title">Título</option>
+            <option value="author">Autor</option>
+            <option value="content">Contenido</option>
+          </select>
 
           <button className="btn btn-link text-decoration-none" onClick={toggleTheme}>
             {theme === "light" ? (
