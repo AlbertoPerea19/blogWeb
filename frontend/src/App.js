@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import NavBar from "./components/NavBar";
+import BlogList from "./components/BlogList";
+import Blog from "./components/Blog";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import useDataFetcher from "./hooks/useDataFetcher";
+import { getEntryById } from "./services/getByIdServices";
+import filterEntries from "./hooks/filterEntries";
 
 function App() {
+  const { entries, fetchEntries } = useDataFetcher();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("title");
+  const [filteredEntries, setFilteredEntries] = useState([]);
+
+  useEffect(() => {
+    const filtered = filterEntries(entries, searchTerm, searchType);
+    setFilteredEntries(filtered);
+  }, [entries, searchTerm, searchType]);
+
+  const handleSearch = (term, type) => {
+    setSearchTerm(term);
+    setSearchType(type);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <NavBar onSearch={handleSearch} />
+        <Routes>
+          <Route
+            path="/"
+            element={<BlogList entries={filteredEntries} onPostSuccess={fetchEntries} />}
+          />
+          <Route
+            path="/blog/:id"
+            element={<Blog entries={entries} getEntryById={getEntryById} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
