@@ -1,0 +1,24 @@
+FROM node:16-alpine
+
+WORKDIR /app
+
+# Copiar el archivo package.json para instalar dependencias
+COPY backend/package*.json ./
+
+# Copiar el archivo .env para utilizar las variables de entorno durante la construcción
+COPY backend/.env ./
+
+# Instalar dependencias incluyendo las variables de entorno
+RUN npm install
+
+# Copiar el resto del código fuente
+COPY backend/ .
+
+# Construir la aplicación
+RUN npm run build
+
+# Definir el entorno de ejecución
+ENV NODE_ENV=production
+
+# Comando de inicio
+CMD ["npm", "start"]
