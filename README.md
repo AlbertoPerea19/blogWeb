@@ -20,8 +20,8 @@ Antes de comenzar, asegúrate de tener instalados los siguientes requisitos en t
 1. Clona este repositorio en tu máquina local:
 
    ```bash
-   git clone https://github.com/tuusuario/proyecto-xyz.git
-   cd proyecto-xyz
+   git clone https://github.com/AlbertoPerea19/blogWeb.git
+   cd blogWeb
    ```
 
 ## Manual
