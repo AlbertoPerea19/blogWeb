@@ -82,7 +82,7 @@ const BlogForm = ({onPostSuccess, onCloseModal}) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="text-dark">
       <Form.Group controlId="formTitle">
         <Form.Label>Título</Form.Label>
         <Form.Control
