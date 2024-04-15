@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - database
+    env_file:
+      - backend/.env   # Cargar las variables de entorno desde el archivo .env
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+
+  database:
+    image: postgres:12
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432  # Mapear el puerto de PostgreSQL
+    volumes:
+      - database:/var/lib/postgresql/data
+    env_file:
+      - backend/.env   # Cargar las variables de entorno desde el archivo .env
+
+volumes:
+  database:
+    driver: local
