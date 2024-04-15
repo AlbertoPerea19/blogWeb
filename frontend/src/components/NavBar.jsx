@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
-import { useState } from "react";
 
 const NavBar = ({ onSearch }) => {
   const [theme, setTheme] = useState("light");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("title");
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -12,9 +13,16 @@ const NavBar = ({ onSearch }) => {
     document.body.classList.toggle("text-light", newTheme === "dark");
   };
 
-  const handleSearch = (event) => {
+  const handleSearchChange = (event) => {
     const term = event.target.value;
-    onSearch(term);
+    setSearchTerm(term);
+    onSearch(term, searchType);
+  };
+
+  const handleSearchTypeChange = (event) => {
+    const type = event.target.value;
+    setSearchType(type);
+    onSearch(searchTerm, type); 
   };
 
   return (
@@ -30,8 +38,19 @@ const NavBar = ({ onSearch }) => {
             type="text"
             className="form-control me-2"
             placeholder="Buscar..."
-            onChange={handleSearch}
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
+
+          <select
+            className="form-select me-2"
+            value={searchType}
+            onChange={handleSearchTypeChange}
+          >
+            <option value="title">Título</option>
+            <option value="author">Autor</option>
+            <option value="content">Contenido</option>
+          </select>
 
           <button className="btn btn-link text-decoration-none" onClick={toggleTheme}>
             {theme === "light" ? (
