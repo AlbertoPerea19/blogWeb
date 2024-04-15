@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/logo.png";
 import { useState } from "react";
 
-const NavBar = () => {
+const NavBar = ({ onSearch }) => {
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = () => {
@@ -10,6 +10,11 @@ const NavBar = () => {
     setTheme(newTheme);
     document.body.classList.toggle("bg-dark", newTheme === "dark");
     document.body.classList.toggle("text-light", newTheme === "dark");
+  };
+
+  const handleSearch = (event) => {
+    const term = event.target.value;
+    onSearch(term);
   };
 
   return (
@@ -21,9 +26,12 @@ const NavBar = () => {
         </a>
 
         <div className="d-flex align-items-center">
-          <button className="btn btn-link text-decoration-none">
-            <i className="bi bi-search"></i>
-          </button>
+          <input
+            type="text"
+            className="form-control me-2"
+            placeholder="Buscar..."
+            onChange={handleSearch}
+          />
 
           <button className="btn btn-link text-decoration-none" onClick={toggleTheme}>
             {theme === "light" ? (
