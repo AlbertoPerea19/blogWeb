@@ -125,7 +125,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes requisitos en t
    1. Copia el archivo de variables de entorno para Docker Compose:
 
       ```bash
-      cp backend/.env docker-compose.env
+      cp backend/.env .env
       ```
 
       - Edita el archivo `docker-compose.env` y configura las variables de entorno necesarias, especialmente las relacionadas con la base de datos PostgreSQL.
