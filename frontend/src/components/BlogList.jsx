@@ -54,7 +54,7 @@ const BlogList = ({ entries, onPostSuccess }) => {
 
       <Modal show={showFormModal} onHide={handleCloseFormModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Nuevo Post</Modal.Title>
+          <Modal.Title className="text-dark">Nuevo Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <BlogForm onPostSuccess={onPostSuccess} onCloseModal={handleCloseFormModal}/>
